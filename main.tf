@@ -9,7 +9,7 @@ resource "scaleway_instance_security_group" "sg" {
 
 resource "scaleway_instance_server" "server" {
   count = 3
-  name = "cka-${count.index}"
+  name = "${var.name}-${count.index}"
   type = "DEV1-S"
   image = "ubuntu_focal"
   ip_id = scaleway_instance_ip.public_ip[count.index].id
