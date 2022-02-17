@@ -3,7 +3,7 @@ resource "scaleway_instance_ip" "public_ip" {
 }
 
 resource "scaleway_instance_security_group" "sg" {
-  inbound_default_policy = "drop"
+  inbound_default_policy = "accept"
   outbound_default_policy = "accept"
 }
 
