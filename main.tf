@@ -7,6 +7,10 @@ resource "scaleway_instance_security_group" "sg" {
   outbound_default_policy = "accept"
 }
 
+resource scaleway_vpc_private_network "network" {
+    name = "${var.name}-private_network"
+}
+
 resource "scaleway_instance_server" "server" {
   count = 3
   name = "${var.name}-${count.index}"
@@ -17,6 +21,9 @@ resource "scaleway_instance_server" "server" {
   user_data = {
     docker        = "installed"
     cloud-init = file("docker.sh")
+  }
+  private_network {
+    pn_id = scaleway_vpc_private_network.network.id
   }
   security_group_id= scaleway_instance_security_group.sg.id
 }
