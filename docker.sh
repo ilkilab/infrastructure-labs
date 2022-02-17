@@ -3,6 +3,7 @@
 #  Installation Docker & Docker-Compose
 #
 # Setup daemon.
+mkdir -p /etc/docker/
 cat > /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
