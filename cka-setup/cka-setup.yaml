@@ -175,3 +175,64 @@ spec:
   policyTypes:
   - Ingress
   - Egress
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: extract-logs1
+  labels:
+    name: extract-logs1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-pod1
+  namespace: extract-logs1
+spec:
+  selector:
+    matchLabels:
+      app: error-pod1
+  template:
+    metadata:
+      labels:
+        app: error-pod1
+    spec:
+      containers:
+      - name: error-pod1
+        image: busybox
+        args: ["/bin/bash", "-c", "while true ; do echo \"I am an error container !\" && sleep 3; done"]
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: extract-logs2
+  labels:
+    name: extract-logs2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-pod2
+  namespace: extract-logs2
+spec:
+  selector:
+    matchLabels:
+      app: error-pod2
+  template:
+    metadata:
+      labels:
+        app: error-pod2
+    spec:
+      containers:
+      - name: error-pod2
+        image: busybox
+        args: ["/bin/sh", "-c", "while true ; do echo \"I am an error container !\" && sleep 3; done"]
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
