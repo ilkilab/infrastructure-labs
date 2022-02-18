@@ -19,7 +19,7 @@ resource "scaleway_instance_server" "master" {
   tags  = ["CKA", "LABS", "PIERRE"]
   user_data = {
     docker     = "installed"
-    cloud-init = [file("docker.sh"), templatefile("setup_master.sh", { address = scaleway_instance_server.master.private_ip})]
+    cloud-init = templatefile("setup-master.sh", { address = scaleway_instance_server.master.private_ip })
   }
   private_network {
     pn_id = scaleway_vpc_private_network.network.id
@@ -36,7 +36,7 @@ resource "scaleway_instance_server" "worker" {
   tags  = ["CKA", "LABS", "PIERRE"]
   user_data = {
     docker     = "installed"
-    cloud-init = [file("docker.sh"), file("setup_ssh.sh")]
+    cloud-init = file("setup-worker.sh")
   }
   private_network {
     pn_id = scaleway_vpc_private_network.network.id

@@ -36,3 +36,9 @@ EOF
 sudo apt-get update
 sudo apt-get install -y kubelet=1.22.1-00 kubeadm=1.22.1-00 kubectl=1.22.1-00
 sudo apt-mark hold kubelet kubeadm kubectl
+
+#
+#  Push SSH public key
+#
+# Push SSH Key for Root
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCl3ekSTD+NtyDerAsGoB0Sd4TgtjsHzFqtDWbdCFj6/yNFBbgjVdWzWncLH6uPYdWXljCL4nJdPqdPax6aklHgfBbF3X/zWf45xe4DdMVnkkC72L1iQqvkpr7KAjb5ppHA+1xBDIaRtvJ7LWBpKbl7Yu8Nn/e4jK87w3vWIkXJLXzj4cfAaaT0+yOxvi+CtFoZ6Dlryi7n48FfwM8twYwGmbu0KO9BM0ILIBlhUGxz5JEkRpcTHEoKMmo/dMMDHKW3alQ2a5UdzDVh8h5HpfwYPUh60R5yiJ83YkvCUq6WblKU4bm63wSHYwpm6C+tMHaq5Xh9lYkDP2ZThhIZw/AL9CHyTmjCcadcuUG9ItvMb08vNB/iHpdXunm0vLbxKZlKu4UtO3JbN+mErEKbep5CRQUWblZLakjQZtZqypsk/+wIgS3KQw35RuOAfE6URZh2naLLk2ex78KmQr3hR7EAN7bp8tumCl5NAV43OLPMTOA+89Kmi3maYY8Setgg7rs= root@ILKI-4CLG063" >> /root/.ssh/authorized_keys
