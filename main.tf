@@ -1,50 +1,66 @@
 resource "scaleway_instance_ip" "public_ip" {
-    count = 3
+  count = 3
 }
 
 resource "scaleway_instance_security_group" "sg" {
-  inbound_default_policy = "accept"
+  inbound_default_policy  = "accept"
   outbound_default_policy = "accept"
 }
 
-resource scaleway_vpc_private_network "network" {
-    name = "${var.name}-private_network"
+resource "scaleway_vpc_private_network" "network" {
+  name = "${var.name}-private_network"
 }
 
-resource "scaleway_instance_server" "server" {
-  count = 3
-  name = "${var.name}-${count.index}"
-  type = "DEV1-S"
+resource "scaleway_instance_server" "master" {
+  name  = "${var.name}-master"
+  type  = "DEV1-S"
   image = "ubuntu_focal"
-  ip_id = scaleway_instance_ip.public_ip[count.index].id
-  tags = [ "CKA", "LABS", "PIERRE" ]
+  ip_id = scaleway_instance_ip.public_ip[2].id
+  tags  = ["CKA", "LABS", "PIERRE"]
   user_data = {
-    docker        = "installed"
-    cloud-init = file("docker.sh")
+    docker     = "installed"
+    cloud-init = [file("docker.sh"), templatefile("setup_master.sh", { address = scaleway_instance_server.master.private_ip})]
   }
   private_network {
     pn_id = scaleway_vpc_private_network.network.id
   }
-  security_group_id= scaleway_instance_security_group.sg.id
+  security_group_id = scaleway_instance_security_group.sg.id
+}
+
+resource "scaleway_instance_server" "worker" {
+  count = 2
+  name  = "${var.name}-worker-${count.index}"
+  type  = "DEV1-S"
+  image = "ubuntu_focal"
+  ip_id = scaleway_instance_ip.public_ip[count.index].id
+  tags  = ["CKA", "LABS", "PIERRE"]
+  user_data = {
+    docker     = "installed"
+    cloud-init = [file("docker.sh"), file("setup_ssh.sh")]
+  }
+  private_network {
+    pn_id = scaleway_vpc_private_network.network.id
+  }
+  security_group_id = scaleway_instance_security_group.sg.id
 }
 
 output "public_ip_master" {
-  value = scaleway_instance_server.server[0].public_ip
+  value = scaleway_instance_server.master.public_ip
 }
 output "public_ip_worker1" {
-  value = scaleway_instance_server.server[1].public_ip
+  value = scaleway_instance_server.worker[0].public_ip
 }
 output "public_ip_worker2" {
-  value = scaleway_instance_server.server[2].public_ip
+  value = scaleway_instance_server.worker[1].public_ip
 }
 output "private_ip_master" {
-  value = scaleway_instance_server.server[0].private_ip
+  value = scaleway_instance_server.master.private_ip
 }
 output "private_ip_worker1" {
-  value = scaleway_instance_server.server[1].private_ip
+  value = scaleway_instance_server.worker[0].private_ip
 }
 output "private_ip_worker2" {
-  value = scaleway_instance_server.server[2].private_ip
+  value = scaleway_instance_server.worker[1].private_ip
 }
 
 
