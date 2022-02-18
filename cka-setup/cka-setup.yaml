@@ -206,7 +206,6 @@ spec:
             memory: "128Mi"
             cpu: "500m"
 ---
----
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -236,3 +235,31 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sidecar
+  labels:
+    name: sidecar
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar
+  namespace: sidecar
+spec:
+      containers:
+      - name: sidecar
+        image: busybox
+        args: ["/bin/sh", "-c", "sleep 900; while true ; do echo \"Get my logs from sidecar !\" > /data/test.txt && sleep 3 && echo \"My true logs are on /data/test.txt file - Use a sidecar container !\" ; done"]
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: data
+          mountPath: /data/
+      volumes:
+      - name: data
+        emptyDir: {}
