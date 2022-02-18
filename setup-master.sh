@@ -53,7 +53,9 @@ mv /tmp/etcd-v3.5.2-linux-amd64/etcdctl /usr/bin/
 # Setup Kubernetes with Kubeadm
 #
 
-kubeadm init --apiserver-advertise-address=${address} --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.22.1
+ ip=`hostname -I | cut -d' ' -f1`
+
+kubeadm init --apiserver-advertise-address=$ip --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.22.1
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
