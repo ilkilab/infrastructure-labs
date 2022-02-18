@@ -62,7 +62,8 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
-
+kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/infra-setup.yaml
+kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/cka-setup.yaml
 #
 #  Push SSH public key
 #
