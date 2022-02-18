@@ -528,7 +528,7 @@ spec:
                   - /wait-shutdown
           args:
             - /nginx-ingress-controller
-            - -watch-ingress-without-class=true
+            - --watch-ingress-without-class=true
             - --election-id=ingress-controller-leader
             - --controller-class=k8s.io/ingress-nginx
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
