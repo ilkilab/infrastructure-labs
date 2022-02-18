@@ -1,0 +1,63 @@
+#
+# Exercice RBAC
+#
+---
+apiVersion: v1
+metadata:
+  name: rbac
+  labels:
+    name: rbac
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: rbac-reader
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: cka-user
+  namespace: rbac
+
+#
+# Replicas
+#
+---
+apiVersion: v1
+metadata:
+  name: replicas
+  labels:
+    name: replicas
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: replicas
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+
