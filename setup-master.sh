@@ -34,7 +34,7 @@ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubelet=1.22.1-00 kubeadm=1.22.1-00 kubectl=1.22.1-00
+sudo apt-get install -y kubelet=1.23.0-00 kubeadm=1.23.0-00 kubectl=1.23.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
 
 #
@@ -55,7 +55,7 @@ mv /tmp/etcd-v3.5.2-linux-amd64/etcdctl /usr/bin/
 
 ip=`hostname -I | cut -d' ' -f1`
 
-kubeadm init --apiserver-advertise-address=$ip --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.22.1
+kubeadm init --apiserver-advertise-address=$ip --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.23.0
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
