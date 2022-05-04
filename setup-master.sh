@@ -64,6 +64,13 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/infra-setup.yaml
 #kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/cka-setup.yaml
+
+# Install CRICTL
+VERSION="v1.23.0"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/critest-$VERSION-linux-amd64.tar.gz
+sudo tar zxvf critest-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+rm -f critest-$VERSION-linux-amd64.tar.gz
+
 #
 #  Push SSH public key
 #
