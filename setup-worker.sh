@@ -37,6 +37,12 @@ sudo apt-get update
 sudo apt-get install -y kubelet=1.23.0-00 kubeadm=1.23.0-00 kubectl=1.23.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
 
+# Install CRICTL
+VERSION="v1.23.0"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/critest-$VERSION-linux-amd64.tar.gz
+sudo tar zxvf critest-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+rm -f critest-$VERSION-linux-amd64.tar.gz
+
 #
 #  Push SSH public key
 #
