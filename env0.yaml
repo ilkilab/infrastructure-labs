@@ -2,6 +2,9 @@ version: 1
 
 deploy:
   steps:
+    terraformPlan:
+      before:
+        - ./getkey.sh
     terraformApply:
       after:
         - pip3 install --user ansible
@@ -9,4 +12,4 @@ deploy:
       after:
         - export PATH=$PATH:$(python3 -m site --user-base)/bin
         - terraform output -raw public_ip_website >> inventory
-        - ansible-playbook -i inventory --private-key ${key} --ssh-common-args='-F .ssh/config' configure.yml
+        - ansible-playbook -i inventory --private-key ${key} --ssh-common-args='-F .ssh/config' website.yml
