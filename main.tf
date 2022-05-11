@@ -45,3 +45,7 @@ resource "scaleway_instance_server" "website" {
 output "public_ip_website" {
   value = scaleway_instance_server.website.public_ip
 }
+
+output "content_website" {
+  value = var.content
+}

@@ -2,8 +2,14 @@
 - name: Update web servers
   hosts: website
   remote_user: root
+#  vars:
+#    content: welcome to Ilki Webinar
   tasks:
   - name: Ensure nginx is at the latest version
     package:
       name: nginx
       state: latest
+  - name: push website content
+    copy:
+      content: {{ content }}
+      dest: index.nginx-debian.html

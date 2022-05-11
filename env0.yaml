@@ -9,5 +9,6 @@ deploy:
       after:
         - export PATH=$PATH:$(python3 -m site --user-base)/bin
         - terraform output -raw public_ip_website >> inventory
+        - terraform output -raw content_website >> vars.yaml
         - chmod 600 .ssh/key.pem
-        - ansible-playbook -i inventory --private-key .ssh/key.pem --ssh-common-args='-F .ssh/config' website.yaml
+        - ansible-playbook -i inventory --private-key .ssh/key.pem --ssh-common-args='-F .ssh/config' --extra-vars "@vars.yaml" website.yaml
