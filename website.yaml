@@ -13,4 +13,4 @@
   - name: push website content
     copy:
       content: "{{ content }}"
-      dest: index.nginx-debian.html
+      dest: /var/www/html/index.nginx-debian.html
