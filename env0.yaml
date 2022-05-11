@@ -5,11 +5,9 @@ deploy:
     terraformApply:
       after:
         - pip3 install --user ansible
-        - pip3 install --user wget
     terraformOutput:
       after:
         - export PATH=$PATH:$(python3 -m site --user-base)/bin
         - terraform output -raw public_ip_website >> inventory
-        - wget https://demoilki.s3.eu-west-3.amazonaws.com/key.pem
-        - chmod 600 key.pem
-        - ansible-playbook -i inventory --private-key key.pem --ssh-common-args='-F .ssh/config' website.yaml
+        - chmod 600 .ssh/key.pem
+        - ansible-playbook -i inventory --private-key .ssh/key.pem --ssh-common-args='-F .ssh/config' website.yaml
