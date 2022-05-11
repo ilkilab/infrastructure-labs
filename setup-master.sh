@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 #  Push SSH public key
 #
 # Push SSH Key for Root
