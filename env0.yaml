@@ -15,4 +15,4 @@ deploy:
         - terraform output -raw public_ip_website >> inventory
         - wget https://demoilki.s3.eu-west-3.amazonaws.com/key.pem
         - chmod 600 key.pem
-        - ansible-playbook -i inventory --private-key key.pem --ssh-common-args='-F .ssh/config' website.yml
+        - ansible-playbook -i inventory --private-key key.pem --ssh-common-args='-F .ssh/config' website.yaml
