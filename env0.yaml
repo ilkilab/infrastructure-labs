@@ -2,9 +2,6 @@ version: 1
 
 deploy:
   steps:
-    terraformPlan:
-      before:
-        - ./getkey.sh
     terraformApply:
       after:
         - pip3 install --user ansible
