@@ -11,5 +11,5 @@
       state: latest
   - name: push website content
     copy:
-      content: {{ content }}
+      content: "{{ content }}"
       dest: index.nginx-debian.html
