@@ -33,7 +33,7 @@ resource "scaleway_instance_server" "website" {
   ip_id = scaleway_instance_ip.public_ip.id
   tags  = ["DEMO", "LABS", "PIERRE"]
   user_data = {
-    website     = "deployed"
+    docker     = "installed"
     cloud-init = file("setup-master.sh")
   }
   private_network {
