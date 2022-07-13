@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     name: Format & validate Terraform files
-    runs-on: self-hosted
+    runs-on: docker
     steps:
     - name: Checkout repository code
       uses: actions/checkout@v2
