@@ -25,11 +25,51 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 #
-# Installation nginx
+# Installation Kubeadm
 #
 
-udo apt-get update
-sudo apt-get install -yqq nginx
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update
+sudo apt-get install -y kubelet=1.23.0-00 kubeadm=1.23.0-00 kubectl=1.23.0-00
+sudo apt-mark hold kubelet kubeadm kubectl
+
+#
+#  Installation Kubernetes Master
+#
+
+#
+# Install ETCDCTL
+#
+
+wget https://github.com/etcd-io/etcd/releases/download/v3.5.2/etcd-v3.5.2-linux-amd64.tar.gz -O /tmp/etcd-v3.5.2-linux-amd64.tar.gz
+tar -xvf /tmp/etcd-v3.5.2-linux-amd64.tar.gz -C /tmp
+mv /tmp/etcd-v3.5.2-linux-amd64/etcdctl /usr/bin/
+
+#
+# Setup Kubernetes with Kubeadm
+#
+
+ip=`hostname -I | cut -d' ' -f1`
+
+kubeadm init --apiserver-advertise-address=$ip --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.23.0
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/infra-setup.yaml
+#kubectl apply -f https://raw.githubusercontent.com/ilkilab/infrastructure-labs/cka/cka-setup/cka-setup.yaml
+
+# Install CRICTL
+VERSION="v1.23.0"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/critest-$VERSION-linux-amd64.tar.gz
+sudo tar zxvf critest-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+rm -f critest-$VERSION-linux-amd64.tar.gz
 
 #
 #  Push SSH public key
