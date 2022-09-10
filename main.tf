@@ -30,7 +30,7 @@ resource "scaleway_instance_server" "master" {
 output "public_ip_master" {
   value = scaleway_instance_server.master.public_ip
 }
-}
+
 output "private_ip_master" {
   value = scaleway_instance_server.master.private_ip
 }
